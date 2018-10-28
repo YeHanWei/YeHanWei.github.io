@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>猜数字游戏</title>
+</head>
+<body>
+	<div id="content" style="width:500px;height: auto;margin: auto;">
+		<h1>猜数字游戏</h1>
+		<p>
+			游戏规则：游戏开始时，会生成一个 1 - 100 的随机整数。玩家需要在输入框中输入自己的猜测，
+			然后提交结果。每次提交结果后，都会将玩家结果与答案的相对大小显示。玩家在10次之内无法猜测到正确答案，
+			游戏结束。游戏结束后，玩家可以开始新的游戏。
+		</p>
+		<label>请输入你猜测的数字：</label> <input type="text" class="guessNum" />
+		<input type="submit" class="guessBut" value="提交" accesskey="p"/>
+		<!--记录每一次猜测的数字-->
+		<p class="historyNum"></p>
+		<!--显示猜测的数字比实际数字大或者小，或者一致-->
+		<p class="compareResult"></p>
+	</div>
+	<script>
+//		获取dom对象
+		let content = document.getElementById('content');
+		let guessNum = document.getElementsByClassName('guessNum')[0];
+		let guessBut = document.getElementsByClassName('guessBut')[0];
+		let historyNum = document.getElementsByClassName('historyNum')[0];
+		let compareResult = document.getElementsByClassName('compareResult')[0];
+		let restartBut;	//预留，未显示的重新开始游戏按键
+		// 全局变量
+		let random;	//存储随机数
+		let loop; //存储每次游戏中猜测的次数
+		begin();
+		// 提交按钮点击事件的处理函数
+		function compare(){
+			// 限制只能猜10次
+			if(loop < 10){
+				// 读取输入框的数字
+				let inputNum = Number(guessNum.value);
+				// 使焦点停留在输入框中
+				guessNum.focus();
+				// 输入的数字与随机数比较
+				if(inputNum < random){
+					// 如果猜测的数字比随机数小，显示比较结果并记入历史，清空输入框
+					compareResult.innerHTML = "你的猜测过<span style='color: red;'>小</span>";
+					historyNum.innerText += "  " + inputNum;
+					guessNum.value = '';
+					loop++;
+				}
+				else if(inputNum > random){
+					// 如果猜测的数字比随机数大，显示比较结果并记入历史，清空输入框
+					compareResult.innerHTML = "你的猜测过<span style='color: red;'>大</span>";
+					historyNum.innerText += "  " + inputNum;
+					guessNum.value = '';
+					loop++;
+				}
+				else if(inputNum === random){
+					// 如果结果正确，显示结果并执行游戏结束操作
+					compareResult.innerHTML = "你的猜测<span style='color: green;'>正确</span>";
+					historyNum.innerText += "  " + inputNum;
+					guessNum.value = '';
+					GameOver();
+				}
+				else{
+					// 如果输入不合法，则提示，并清空输入框
+					compareResult.innerHTML = "请输入数字";
+					guessNum.value = '';
+				}
+			}
+			else{
+				//如果猜测10次无法猜测到正确结果，提示并执行游戏结束程序
+				compareResult.innerHTML = "<span style='color: red;'>游戏失败</span>";
+				GameOver();
+			}
+		}
+		// 添加提交按钮点击事件
+		guessBut.addEventListener("click", compare);
+		// 游戏结束处理函数
+		function GameOver(){
+			// 使输入框和提交按钮无效
+			guessNum.disabled = true;
+			guessBut.disabled = true;
+			// 新增“重新开始”按钮
+			restartBut = document.createElement('button');
+			restartBut.innerText = "重新开始";
+			content.appendChild(restartBut);
+			// 添加“重新开始”按钮点击事件
+			restartBut.addEventListener("click", restart);
+		}
+		//4. 重新开始游戏按钮事件处理函数
+		function restart(){
+			// 恢复输入框和“提交”按钮功能
+			guessNum.disabled = false;
+			guessBut.disabled = false;
+			// 移除“重新输入”按钮
+			restartBut.parentNode.removeChild(restartBut);
+			// 初始化游戏状态
+			begin();
+		}
+		//初始化函数
+		function begin(){
+			// 生成随机数
+			random = Math.floor(Math.random()*100 + 1);
+			// 初始化历史状态
+			historyNum.innerText = "历史猜测：";
+			// 初始化猜测次数
+			loop = 0;
+			// 将焦点定位到输入框
+			guessNum.focus();
+			// 初始化结果显示状态
+			compareResult.innerHTML = '';
+		}
+		//添加键盘时间，当按下enter时，触发“提交”按钮事件
+		document.onkeydown=function(event){
+	    	var code = event.keyCode;
+	   		if(code ==13){ 
+       			guessBut.focus();
+    		}
+		}
+	</script>
+</body>
+</html>
