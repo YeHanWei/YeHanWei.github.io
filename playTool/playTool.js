@@ -8,7 +8,7 @@
 function play(obj,size,arr,second){
 	create_Nodes(obj,size,arr);
 	
-	var oPlayBox = document.getElementsByClassName('play_Box')[0];
+	var oPlayBox = getByClass(obj, 'play_Box')[0];
 	var big_img = getByClass(oPlayBox,"big_img")[0];
 	var small_img = getByClass(oPlayBox, "small_img")[0];
 	var bigImg = big_img.getElementsByTagName("li");
