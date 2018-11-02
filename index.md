@@ -6,4 +6,4 @@
 
 [消息提示框](/messageBox/Demo.html)
 
-[旋转图形](/rotateImg/Demo.heml)
+[旋转图形](/rotateImg/Demo.html)
