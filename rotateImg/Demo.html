@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>旋转图像</title>
+    <script src="rotateImg.js"></script>
+    <script>
+        window.onload = function () {
+            var oimg1 = document.getElementById("img1");
+            var oimg2 = document.getElementById("img2");
+            var oimg3 = document.getElementById("img3");
+            var oimg4 = document.getElementById("img4");
+            rotateImg2d(oimg1, 100, "./img/2.jpg");
+            rotateImg2d(oimg2, 200, "./img/2.jpg", false);
+            rotateImg3d(oimg3, 300, "./img/2.jpg");
+            rotateImg3d(oimg4, 400, "./img/2.jpg", "X");
+        }
+    </script>
+</head>
+<body>
+    <div id="img1"></div>
+    <div id="img2"></div>
+    <div id="img3"></div>
+    <div id="img4"></div>
+</body>
+</html>
